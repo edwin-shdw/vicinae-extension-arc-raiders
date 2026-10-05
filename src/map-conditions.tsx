@@ -27,10 +27,6 @@ const dateOptions: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 };
 
-const relativeTimeOptions: Intl.RelativeTimeFormatOptions = {
-  style: 'short',
-};
-
 function getTimeFrameString(condition: RegionalMapCondition): string {
   const startTime = new Date(condition.startTime);
   const endTime = new Date(condition.endTime);
@@ -40,15 +36,20 @@ function getTimeFrameString(condition: RegionalMapCondition): string {
 function getNextConditionTag(condition: RegionalMapCondition): List.Item.Tag {
   const difference = new Date(condition.startTime).getTime() - Date.now();
 
-  if (difference >= 60 * 60 * 1000) {
-    return undefined;
+  const minutes = Math.ceil(difference / 60 / 1000) % 60;
+
+  if (difference <= 60 * 60 * 1000) {
+    return {
+      value: `${minutes}min`,
+      color: Color.Magenta,
+    };
   }
 
-  const minutes = Math.ceil(difference / 60 / 1000);
+  const hours = Math.floor(difference / 60 / 60 / 1000);
 
   return {
-    value: new Intl.RelativeTimeFormat(undefined, relativeTimeOptions).format(minutes, 'minute'),
-    color: Color.Magenta,
+    value: `${hours}h ${minutes}min`,
+    color: Color.SecondaryText,
   }
 }
 
