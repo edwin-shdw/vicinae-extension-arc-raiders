@@ -35,6 +35,14 @@ export interface RegionalMapCondition {
 
 export type RegionalMapConditionSchedule = Record<Region, RegionalMapCondition[]>;
 
+export const regionNames: Record<Region, string> = {
+  europe: 'Europe',
+  'north-america': 'North America',
+  brazil: 'South America',
+  'east-asia': 'Asia',
+  oceania: 'Oceania',
+};
+
 export async function getApiMapConditions() {
   const url = 'https://arcraiders.com/external-api/map-conditions';
 

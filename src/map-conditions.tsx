@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getRegionalSchedule, type RegionalMapCondition } from './utils/map-conditions';
+import { getRegionalSchedule, type Region, type RegionalMapCondition, regionNames } from './utils/map-conditions';
 import { Color, List } from '@vicinae/api';
+import { getPreferenceValues } from './utils/preferences';
 
 const timeOptions: Intl.DateTimeFormatOptions = {
   hourCycle: 'h23',
@@ -40,19 +41,30 @@ function getNextConditionTag(condition: RegionalMapCondition): List.Item.Tag {
 
 export default function MapConditionsList() {
   const [isLoading, setIsLoading] = useState(true);
+  const [region, setRegion] = useState<Region>(getPreferenceValues().region);
   const [activeConditions, setActiveConditions] = useState<RegionalMapCondition[]>([]);
   const [upcomingConditions, setUpcomingConditions] = useState<RegionalMapCondition[]>([]);
 
   useEffect(() => {
     getRegionalSchedule().then(schedule => {
       const timestampNow = Date.now();
-      setActiveConditions(schedule.europe.filter((condition) => new Date(condition.startTime).getTime() <= timestampNow && timestampNow <= new Date(condition.endTime).getTime()));
-      setUpcomingConditions(schedule.europe.filter((condition) => new Date(condition.startTime).getTime() > timestampNow));
+      setActiveConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() <= timestampNow && timestampNow <= new Date(condition.endTime).getTime()));
+      setUpcomingConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() > timestampNow));
     }).finally(() => setIsLoading(false));
-  }, []);
+  }, [region]);
 
   return (
-    <List searchBarPlaceholder="Search map conditions..." isLoading={isLoading}>
+    <List
+      searchBarPlaceholder="Search map conditions..."
+      isLoading={isLoading}
+      searchBarAccessory={
+        <List.Dropdown value={region} onChange={setRegion as (newValue: string) => void}>
+          {Object.entries(regionNames).map(([key, region]) => (
+            <List.Dropdown.Item title={region} value={key} key={key} />
+          ))}
+        </List.Dropdown>
+      }
+    >
       <List.Section title="Active now">
         {activeConditions.map((condition, index) => (
           <List.Item
@@ -84,7 +96,7 @@ export default function MapConditionsList() {
               },
               {
                 tag: getNextConditionTag(condition),
-              }
+              },
             ]}
           />
         ))}

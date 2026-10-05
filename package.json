@@ -18,7 +18,23 @@
       "mode": "view"
     }
   ],
-  "preferences": [],
+  "preferences": [
+    {
+      "name": "region",
+      "title": "Region",
+      "description": "Your preferred region that will be used as default",
+      "type": "dropdown",
+      "default": "europe",
+      "required": false,
+      "data": [
+        { "title": "Europe", "value": "europe" },
+        { "title": "North America", "value": "north-america" },
+        { "title": "South America", "value": "brazil" },
+        { "title": "Asia", "value": "east-asia" },
+        { "title": "Oceania", "value": "oceania" }
+      ]
+    }
+  ],
   "scripts": {
     "build": "vici build",
     "dev": "vici develop",
