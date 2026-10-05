@@ -43,10 +43,13 @@ export const regionNames: Record<Region, string> = {
   oceania: 'Oceania',
 };
 
-export async function getApiMapConditions() {
-  const url = 'https://arcraiders.com/external-api/map-conditions';
+export const arcRaidersLinks = {
+  mapConditionPage: 'https://arcraiders.com/map-conditions',
+  mapConditionApi: 'https://arcraiders.com/external-api/map-conditions',
+}
 
-  const response = await fetch(url);
+export async function getApiMapConditions() {
+  const response = await fetch(arcRaidersLinks.mapConditionApi);
 
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);

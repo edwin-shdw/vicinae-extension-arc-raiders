@@ -1,6 +1,19 @@
 import { useEffect, useState } from 'react';
-import { getRegionalSchedule, type Region, type RegionalMapCondition, regionNames } from './utils/map-conditions';
-import { Color, List } from '@vicinae/api';
+import {
+  arcRaidersLinks,
+  getRegionalSchedule,
+  regionNames,
+  type Region,
+  type RegionalMapCondition,
+} from './utils/map-conditions';
+import {
+  Action,
+  ActionPanel,
+  Color,
+  Icon,
+  List,
+  openExtensionPreferences,
+} from '@vicinae/api';
 import { getPreferenceValues } from './utils/preferences';
 
 const timeOptions: Intl.DateTimeFormatOptions = {
@@ -63,6 +76,23 @@ export default function MapConditionsList() {
             <List.Dropdown.Item title={region} value={key} key={key} />
           ))}
         </List.Dropdown>
+      }
+      actions={
+        <ActionPanel>
+          <Action.OpenInBrowser
+            title="View schedule on arcraiders.com"
+            url={arcRaidersLinks.mapConditionPage}
+            icon={Icon.ArrowNe}
+          />
+          <ActionPanel.Section>
+            <Action
+              title="Change default region"
+              onAction={openExtensionPreferences}
+              shortcut={{ modifiers: ["cmd"], key: "," }}
+              icon={Icon.Cog}
+            />
+          </ActionPanel.Section>
+        </ActionPanel>
       }
     >
       <List.Section title="Active now">
