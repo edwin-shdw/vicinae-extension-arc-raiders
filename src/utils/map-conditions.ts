@@ -56,13 +56,11 @@ export async function getApiMapConditions() {
 }
 
 export function buildRegionalSchedule(schedule: MapConditionsApiResponse) {
-  const regions: RegionalMapConditionSchedule = {
-    europe: [],
-    'north-america': [],
-    brazil: [],
-    'east-asia': [],
-    oceania: [],
-  };
+  const regions = Object.keys(regionNames)
+    .reduce((result, region) => {
+      result[region as Region] = [];
+      return result;
+    }, {} as RegionalMapConditionSchedule);
 
   schedule.conditions.forEach((condition) => {
     Object.entries(condition.regions).forEach(([key, region]) => {
