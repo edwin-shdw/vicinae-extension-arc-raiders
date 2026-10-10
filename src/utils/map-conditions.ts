@@ -1,5 +1,6 @@
 import { LocalStorage, showToast, Toast } from '@vicinae/api';
 import { LocalStorageKeys, type LocalStorageRegionalEventSchedule } from './local-storage';
+import { arcRaidersLinks } from './links';
 
 export type Region = 'europe' | 'north-america' | 'brazil' | 'east-asia' | 'oceania';
 
@@ -43,10 +44,6 @@ export const regionNames: Record<Region, string> = {
   oceania: 'Oceania',
 };
 
-export const arcRaidersLinks = {
-  mapConditionPage: 'https://arcraiders.com/map-conditions',
-  mapConditionApi: 'https://arcraiders.com/external-api/map-conditions',
-}
 
 export async function getApiMapConditions() {
   const response = await fetch(arcRaidersLinks.mapConditionApi);

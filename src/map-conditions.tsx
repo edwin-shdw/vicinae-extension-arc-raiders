@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  arcRaidersLinks,
   getRegionalSchedule,
   regionNames,
   type Region,
@@ -15,6 +14,7 @@ import {
   openExtensionPreferences,
 } from '@vicinae/api';
 import { getPreferenceValues } from './utils/preferences';
+import { arcRaidersLinks, metaforgeLinks } from './utils/links';
 
 const timeOptions: Intl.DateTimeFormatOptions = {
   hourCycle: 'h23',
@@ -58,13 +58,16 @@ export default function MapConditionsList() {
   const [region, setRegion] = useState<Region>(getPreferenceValues().region);
   const [activeConditions, setActiveConditions] = useState<RegionalMapCondition[]>([]);
   const [upcomingConditions, setUpcomingConditions] = useState<RegionalMapCondition[]>([]);
+  const [isApiError, setIsApiError] = useState(false);
 
   useEffect(() => {
     getRegionalSchedule().then(schedule => {
       const timestampNow = Date.now();
       setActiveConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() <= timestampNow && timestampNow <= new Date(condition.endTime).getTime()));
       setUpcomingConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() > timestampNow));
-    }).finally(() => setIsLoading(false));
+    })
+      .catch(() => setIsApiError(true))
+      .finally(() => setIsLoading(false));
   }, [region]);
 
   return (
@@ -80,11 +83,7 @@ export default function MapConditionsList() {
       }
       actions={
         <ActionPanel>
-          <Action.OpenInBrowser
-            title="View schedule on arcraiders.com"
-            url={arcRaidersLinks.mapConditionPage}
-            icon={Icon.ArrowNe}
-          />
+          <OpenScheduleLinksActions />
           <ActionPanel.Section>
             <Action
               title="Change default region"
@@ -96,6 +95,7 @@ export default function MapConditionsList() {
         </ActionPanel>
       }
     >
+      <EmptyView isApiError={isApiError} />
       <List.Section title="Active now">
         {activeConditions.map((condition, index) => (
           <List.Item
@@ -133,5 +133,47 @@ export default function MapConditionsList() {
         ))}
       </List.Section>
     </List>
+  );
+}
+
+function EmptyView({ isApiError }: { isApiError: boolean }) {
+  if (isApiError) {
+    return (
+      <List.EmptyView
+        icon={Icon.Bug}
+        title="API error"
+        description="An error occured while fetching the data from the API"
+        actions={
+          <ActionPanel>
+            <OpenScheduleLinksActions />
+          </ActionPanel>
+        }
+      />
+    );
+  }
+
+  return (
+    <List.EmptyView
+      icon={Icon.XMarkCircle}
+      title="Nothing scheduled for now"
+      description="It seems like there is no upcoming Map Condition."
+    />
+  );
+}
+
+function OpenScheduleLinksActions() {
+  return (
+    <>
+      <Action.OpenInBrowser
+        title="View schedule on arcraiders.com"
+        url={arcRaidersLinks.mapConditionPage}
+        icon={Icon.ArrowNe}
+      />
+      <Action.OpenInBrowser
+        title="View schedule on metaforge.app"
+        url={metaforgeLinks.mapConditionPage}
+        icon={Icon.ArrowNe}
+      />
+    </>
   );
 }
