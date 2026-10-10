@@ -1,4 +1,4 @@
-import { LocalStorage } from '@vicinae/api';
+import { LocalStorage, showToast, Toast } from '@vicinae/api';
 import { LocalStorageKeys, type LocalStorageRegionalEventSchedule } from './local-storage';
 
 export type Region = 'europe' | 'north-america' | 'brazil' | 'east-asia' | 'oceania';
@@ -89,6 +89,7 @@ async function updateLocalStorage() {
     expiresAt,
     regionalSchedule
   }));
+  await showToast({ title: 'Fetched latest schedule', style: Toast.Style.Success });
 
   return regionalSchedule;
 }
