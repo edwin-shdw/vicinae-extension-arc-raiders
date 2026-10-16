@@ -44,7 +44,6 @@ export const regionNames: Record<Region, string> = {
   oceania: 'Oceania',
 };
 
-
 export async function getApiMapConditions() {
   const response = await fetch(arcRaidersLinks.mapConditionApi);
 
@@ -105,4 +104,12 @@ export async function getRegionalSchedule() {
   }
 
   return localStoredData.regionalSchedule;
+}
+
+export function filterActiveConditions(schedule: RegionalMapCondition[]) {
+  const now = Date.now();
+
+  return schedule.filter((condition) => (
+    new Date(condition.startTime).getTime() <= now && now <= new Date(condition.endTime).getTime()
+  ));
 }

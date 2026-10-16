@@ -23,4 +23,8 @@ See the [Vicinae extension docs](https://docs.vicinae.com/extensions/introductio
 
 ## Commands
 
-- **Map Conditions**: Shows the current and upcoming Map Conditions like the [official website](https://arcraiders.com/map-conditions)
+| Command        | Description                                                                                                      |
+|----------------|------------------------------------------------------------------------------------------------------------------|
+| Map Conditions | Shows the current and upcoming Map Conditions like the [official website](https://arcraiders.com/map-conditions) |
+| Maps           | Shows a list of all maps with their current map condition and a link to an interactive map                       |
+

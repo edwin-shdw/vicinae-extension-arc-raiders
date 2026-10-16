@@ -4,6 +4,7 @@ import {
   regionNames,
   type Region,
   type RegionalMapCondition,
+  filterActiveConditions,
 } from './utils/map-conditions';
 import {
   Action,
@@ -63,7 +64,7 @@ export default function MapConditionsList() {
   useEffect(() => {
     getRegionalSchedule().then(schedule => {
       const timestampNow = Date.now();
-      setActiveConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() <= timestampNow && timestampNow <= new Date(condition.endTime).getTime()));
+      setActiveConditions(filterActiveConditions(schedule[region]));
       setUpcomingConditions(schedule[region].filter((condition) => new Date(condition.startTime).getTime() > timestampNow));
     })
       .catch(() => setIsApiError(true))

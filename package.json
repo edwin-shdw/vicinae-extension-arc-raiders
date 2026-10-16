@@ -16,6 +16,12 @@
       "title": "Map Conditions",
       "description": "List all active and upcoming Map Conditions",
       "mode": "view"
+    },
+    {
+      "name": "maps",
+      "title": "Maps",
+      "description": "List all maps",
+      "mode": "view"
     }
   ],
   "preferences": [
