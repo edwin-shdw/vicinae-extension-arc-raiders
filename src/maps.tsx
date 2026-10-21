@@ -17,7 +17,7 @@ export default function MapConditionsList() {
     getRegionalSchedule().then(schedule => {
       setActiveConditions(filterActiveConditions(schedule[region]));
     });
-  });
+  }, []);
 
   return (
     <List isShowingDetail>
