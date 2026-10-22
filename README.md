@@ -27,4 +27,14 @@ See the [Vicinae extension docs](https://docs.vicinae.com/extensions/introductio
 |----------------|------------------------------------------------------------------------------------------------------------------|
 | Map Conditions | Shows the current and upcoming Map Conditions like the [official website](https://arcraiders.com/map-conditions) |
 | Maps           | Shows a list of all maps with their current map condition and a link to an interactive map                       |
+| Trials         | Shows trials of the current week                                                                                 |
 
+## Data
+
+Data sources:
+
+- [Official Arc Raiders website](https://arcraiders.com/map-conditions)
+- [MetaForge](https://metaforge.app/arc-raiders)
+
+Fetched data is cached in local storage. To respect the APIs, there is no manual refresh option. The data will get
+re-fetched automatically at appropriate intervals or when it expires.

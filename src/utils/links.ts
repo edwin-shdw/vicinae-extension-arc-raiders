@@ -5,4 +5,6 @@ export const arcRaidersLinks = {
 
 export const metaforgeLinks = {
   mapConditionPage: 'https://metaforge.app/arc-raiders/event-timers',
+  trialsApi: 'https://metaforge.app/api/arc-raiders/weekly-trials',
+  trialsPage: 'https://metaforge.app/arc-raiders/weekly-trials',
 };

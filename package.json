@@ -22,6 +22,12 @@
       "title": "Maps",
       "description": "List all maps",
       "mode": "view"
+    },
+    {
+      "name": "trials",
+      "title": "Trials",
+      "description": "Show this weeks trials",
+      "mode": "view"
     }
   ],
   "preferences": [

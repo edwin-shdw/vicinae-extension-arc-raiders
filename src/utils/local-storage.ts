@@ -2,6 +2,7 @@ import type { RegionalMapConditionSchedule } from './map-conditions';
 
 export const LocalStorageKeys = {
   regionalEventSchedule: 'regionalEventSchedule',
+  activeWeeklyTrials: 'activeWeeklyTrials',
 }
 
 export interface LocalStorageRegionalEventSchedule {
